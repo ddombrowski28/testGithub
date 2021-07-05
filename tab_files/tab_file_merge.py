@@ -22,9 +22,14 @@ def tab_file_merge(genes_filename, go_filename):
         'go_code' : lambda x : ','.join(x)
     })
 
+    # This is what you'd need in reverse
+    go_to_loc = reduced_go.groupby('go_code', as_index = False).agg({
+        'sublocation' : lambda x : ','.join(x)
+    })
+
     df = df_genes.merge(loc_to_go, 'left', on = 'sublocation')
 
-    return
+    return df
 
 def main():
     genes_file = os.path.join(SCRIPT_DIR, 'BLASTX_GENES.csv')
